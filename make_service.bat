@@ -1,1 +1,1 @@
-sc create Povinator3000 binPath= "C:\Python38\Python.exe --C:\tmp\pythonscript.py"
+sc create Povinator3000 binPath= "C:\Users\Public\Povinator3000\povinator3000\start.bat"
