@@ -66,7 +66,6 @@ def go(url, sheets, download, zip):
     povinator = open_povinator(['go'])
     init = wait_and_read(povinator)
     if init != POV3K_WELCOME:
-        print(init)
         raise RuntimeError
     if not url.endswith('\n'):
         url = url + '\n'

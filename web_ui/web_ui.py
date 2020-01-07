@@ -3,8 +3,17 @@
 import flask
 import json
 import pov3000com
+import os
 
-app = flask.Flask(__name__)
+
+in_povinator = 'povinator3000.py' in os.listdir(os.getcwd())
+
+app = flask.Flask(
+    __name__,
+    template_folder='web_ui/templates' if in_povinator else 'templates',
+    static_folder='web_ui/static' if in_povinator else 'static'
+)
+
 
 @app.route('/', methods=['GET'])
 def index():
@@ -34,7 +43,7 @@ def go():
     zip = flask.request.args.get('zip', False)
     url = flask.request.args.get('url', '')
     sheets = flask.request.args.get('sheets', [])
-    if sheets:
+    if type(sheets) == str:
         sheets = sheets.replace("'", '"')
         sheets = json.loads(sheets)
     if not download:
