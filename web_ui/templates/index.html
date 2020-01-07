@@ -1,0 +1,57 @@
+
+{% extends "base.html" %}
+
+{% block page_title %} Welcome to Povinator3000! {% endblock %}
+
+{% block head %}
+  <script>
+      function download_changed() {
+        var download = document.getElementById("switch-download");
+        var zip = document.getElementById("switch-zip");
+        zip.parentElement.hidden = !download.checked;
+        zip.parentElement.MaterialSwitch.off();
+      }
+      function submit() {
+        var lauree_folder = document.getElementById("lauree-folder").value;
+        if (!lauree_folder.startsWith("https://drive.google.com/drive/")) {
+          toast("Please enter a valid Google Drive URL");
+          return;
+        }
+        var download = document.getElementById("switch-download");
+        var zip = document.getElementById("switch-zip");
+        if (!download.checked) {
+          zip.checked = false;
+          zip.parentElement.MaterialSwitch.off();
+        }
+        var submit_button = document.getElementById('submit-btn');
+        submit_button.disabled = true;
+        window.location = '/sheets?url=' + lauree_folder +
+                '&download=' + download.checked +
+                '&zip=' + zip.checked;
+      }
+    </script>
+{% endblock %}
+
+{% block content %}
+  <form action="#">
+    <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label" style="width: 100%">
+      <input class="mdl-textfield__input" type="text" id="lauree-folder">
+      <label class="mdl-textfield__label" for="lauree-folder">Enter the "Lauree" folder</label>
+    </div>
+  </form>
+  <br>
+  <label class="mdl-switch mdl-js-switch mdl-js-ripple-effect" for="switch-download">
+    <input type="checkbox" id="switch-download" class="mdl-switch__input" onchange="download_changed();" checked>
+    <span class="mdl-switch__label">Download the presentations at the end</span>
+  </label>
+  <br><br>
+  <label class="mdl-switch mdl-js-switch mdl-js-ripple-effect" for="switch-zip">
+    <input type="checkbox" id="switch-zip" class="mdl-switch__input" checked>
+    <span class="mdl-switch__label">Make a ZIP archive of the presentations</span>
+  </label>
+  <br><br>
+  <button class="mdl-button mdl-js-button mdl-button--fab mdl-js-ripple-effect mdl-button--colored" style="float: right"
+          onclick="submit()" id="submit-btn">
+    <i class="material-icons">arrow_forward</i>
+  </button>
+{% endblock %}

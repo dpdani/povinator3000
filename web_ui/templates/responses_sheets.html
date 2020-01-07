@@ -1,0 +1,51 @@
+
+{% extends "base.html" %}
+
+{% block page_title %} Select the Responses Sheets {% endblock %}
+
+{% block head %}
+  <script>
+    var sheets = {{ sheets|safe }};
+    function submit() {
+        var sheesh = '[';
+        var first = true;
+        for (let i = 0; i < sheets.length; i++) {
+            var checkbox = document.getElementById(sheets[i]);
+            if (checkbox.checked) {
+                if (!first) {
+                    sheesh += ', ';
+                }
+                sheesh += "'" + sheets[i] + "'";
+            }
+        }
+        sheesh += ']';
+        var submit_button = document.getElementById('submit-btn');
+        submit_button.disabled = true;
+        window.location = '/go' + window.location.search +
+            '&sheets=' + sheesh;
+    }
+  </script>
+{% endblock %}
+
+{% block content %}
+  <div>
+    <ul class="demo-list-control mdl-list">
+      {% for sheet in sheets %}
+      <li class="mdl-list__item">
+        <span class="mdl-list__item-secondary-action">
+          <label class="mdl-checkbox mdl-js-checkbox mdl-js-ripple-effect" for="{{ sheet }}">
+            <input type="checkbox" id="{{ sheet }}" class="mdl-checkbox__input" checked />
+          </label>
+        </span>
+        <span class="mdl-list__item-primary-content">
+          {{ sheet }}
+        </span>
+      </li>
+      {% endfor %}
+    </ul>
+  </div>
+  <button class="mdl-button mdl-js-button mdl-button--fab mdl-js-ripple-effect mdl-button--colored" style="float: right"
+          onclick="submit()" id="submit-btn">
+    <i class="material-icons">arrow_forward</i>
+  </button>
+{% endblock %}
