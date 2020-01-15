@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 
 import subprocess
-import fcntl
+import platform
 import os
 import time
 
@@ -24,6 +24,14 @@ os.chdir('..')
 
 
 def open_povinator(args):
+    if platform.system() == 'Windows':
+        return open_povinator_windows(args)
+    else:
+        return open_povinator_linux(args)
+
+
+def open_povinator_linux(args):
+    import fcntl
     pp = subprocess.Popen(
         ['python', 'povinator3000.py', *args],
         stdin=subprocess.PIPE,
@@ -34,6 +42,18 @@ def open_povinator(args):
     fd = pp.stdout.fileno()
     fl = fcntl.fcntl(fd, fcntl.F_GETFL)
     fcntl.fcntl(fd, fcntl.F_SETFL, fl | os.O_NONBLOCK)
+    log[pp] = ''
+    return pp
+
+
+def open_povinator_windows(args):
+    pp = subprocess.Popen(
+        ['python', 'povinator3000.py', *args],
+        stdin=subprocess.PIPE,
+        stdout=subprocess.PIPE,
+        stderr=subprocess.STDOUT,
+        encoding='utf8',
+    )
     log[pp] = ''
     return pp
 
