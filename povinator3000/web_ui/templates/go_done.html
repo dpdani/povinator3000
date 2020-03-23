@@ -8,10 +8,12 @@
 {{ output | safe }}
   </pre>
   {% if pres_folder is not none %}
-    Presentations have been saved in <pre>{{ pres_folder }}</pre>.
+    Presentations have been saved in
+    <pre style="white-space: pre-wrap;">{{ pres_folder }}</pre>
     <br>
   {% endif %}
   {% if zip_path is not none %}
-    The ZIP archive is available at <pre>{{ zip_path }}</pre>.
+    The ZIP archive is available at
+    <pre style="white-space: pre-wrap;">{{ zip_path }}</pre>
   {% endif %}
 {% endblock %}

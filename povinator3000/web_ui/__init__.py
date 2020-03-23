@@ -20,6 +20,13 @@ def index():
     return flask.render_template('index.html')
 
 
+@app.route('/presentations', methods=['GET'])
+def presentations():
+    return flask.render_template(
+        'presentations.html'
+    )
+
+
 @app.route('/sheets', methods=['GET'])
 def sheets():
     url = flask.request.args.get('url', '')
@@ -113,10 +120,37 @@ def go():
     )
 
 
+@app.route('/form', methods=['GET'])
+def form():
+    return flask.render_template(
+        "form.html"
+    )
+
+
 @app.route('/dummy', methods=['GET'])
 def dummy():
-    return flask.render_template('responses_sheets.html',
-                                 sheets=['a', 'b'])
+    return flask.render_template('upload.html')
+
+
+@app.errorhandler(404)
+def error_page_404(error):
+    return flask.render_template(
+        "error.html",
+        error_message="Page not found.",
+        error_code=404,
+    ), error.code
+
+
+@app.errorhandler(500)
+def error_page_500(error):
+    return flask.render_template(
+        "error.html",
+        error_message="Povinator encountered an unexpected internal error.<br>"
+                      "Please contact "
+                      "<a href=\"mailto:daniele.parmeggiani@unitn.it\">"
+                      "daniele.parmeggiani@unitn.it</a>.",
+        error_code=500,
+    ), error.code
 
 
 def main():

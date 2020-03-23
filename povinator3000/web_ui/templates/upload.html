@@ -1,0 +1,30 @@
+
+{% extends "base.html" %}
+
+{% block page_title %} Upload your Theses Presentation {% endblock %}
+
+{% block content %}
+  <div class="demo-crumbs mdl-color-text--grey-500">
+    <b>Identification Data</b> &rarr; Degree Data &rarr; Commission Data &rarr;
+    File Upload
+  </div>
+  <a href="upload_italian.html" style="float: right">Switch to Italian</a>
+  <br>
+  <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label" style="width: 100%">
+    <input class="mdl-textfield__input" type="text" id="first_name">
+    <label class="mdl-textfield__label" for="first_name">First name</label>
+  </div>
+  <br>
+  <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label" style="width: 100%">
+    <input class="mdl-textfield__input" type="text" id="last_name">
+    <label class="mdl-textfield__label" for="last_name">Last name</label>
+  </div>
+  <br>
+  <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label" style="width: 100%">
+    <input class="mdl-textfield__input" type="email" id="email">
+    <label class="mdl-textfield__label" for="email">Your @unitn.it email</label>
+  </div>
+  <button class="mdl-button mdl-js-button mdl-button--fab mdl-js-ripple-effect mdl-button--colored">
+    <i class="material-icons">cloud_upload</i>
+  </button>
+{% endblock %}
