@@ -4,5 +4,5 @@
 {% block page_title %} Error {{ error_code }} {% endblock %}
 
 {% block content %}
-  {{ error_message }}
+  {{ error_message | safe }}
 {% endblock %}

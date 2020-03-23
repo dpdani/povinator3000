@@ -20,7 +20,7 @@ POV3K_NO_SHEETS = 'No responses sheets found.\n'
 log = {}
 
 
-os.chdir('..')
+os.chdir('../..')
 
 
 def open_povinator(args):

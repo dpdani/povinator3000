@@ -1,0 +1,17 @@
+
+{% extends "base.html" %}
+
+{% block page_title %} Done :) {% endblock %}
+
+{% block content %}
+  <pre style="white-space: pre-wrap;">
+{{ output | safe }}
+  </pre>
+  {% if pres_folder is not none %}
+    Presentations have been saved in <pre>{{ pres_folder }}</pre>.
+    <br>
+  {% endif %}
+  {% if zip_path is not none %}
+    The ZIP archive is available at <pre>{{ zip_path }}</pre>.
+  {% endif %}
+{% endblock %}
