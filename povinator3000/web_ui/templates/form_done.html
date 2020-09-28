@@ -1,0 +1,40 @@
+
+{% extends "base.html" %}
+
+{% block page_title %}Form Created{% endblock %}
+
+{% block content %}
+  A form was successfully created in the specified Drive folder.
+  <br>
+  <b>Important!</b> Remember to:
+
+  <ol>
+    <li>In the "Department / Faculty" question click on the menu and select
+      "Go to Section based on Answer";</li>
+    <li>Select the sections to go to, so as to match the options;</li>
+    <li>In each "Commission" section, select "Go to section X (Your
+      Presentation)" at the bottom, instead of "Continue to next section";</li>
+    <li>
+      In the last section ("Your Presentation") add a new question:
+      <ol style="list-style: lower-latin">
+        <li>Set the type to "File Upload";</li>
+        <li>Name it "Upload your Presentation";</li>
+        <li>Select "Allow only specific file types" and select "Presentation"
+          and "PDF";</li>
+        <li>Set the maximum number of files to 5;</li>
+        <li>Set the maximum file size to 1GB;</li>
+        <li>Enable "Required";</li>
+      </ol>
+    </li>
+    <li>
+      Go to the top of the page and modify the settings (cogwheel icon);
+      <ol style="list-style: lower-latin">
+        <li>In "General", select "Always" instead of "If respondent requests
+          it";</li>
+        <li>Set the maximum size for all files uploaded to 100GB;</li>
+        <li>Click "Save";</li>
+      </ol>
+    </li>
+    <li>Pick Any Colour You Like :)</li>
+  </ol>
+{% endblock %}

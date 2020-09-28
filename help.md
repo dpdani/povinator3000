@@ -1,9 +1,14 @@
 # Povinator3000 - Manuale Utente
 
+Il codice sorgente di Povinator3000 si trova su 
+[GitHub](https://github.com/dpdani/povinator3000).
+
 ## Preparazione al caricamento delle Presentazioni
 
 Per permettere agli studenti di caricare le proprie presentazioni, è necessario 
 preparare una cartella su Google Drive che ospiterà i file degli studenti.
+
+### Struttura della Cartella Lauree
 
 È necessario costruire la cartella in modo che contenga nel primo livello una 
 cartella per ognuno dei Dipartimenti che parteciperanno alla sessione di laurea.
@@ -25,6 +30,30 @@ Per esempio, si potrebbe ottenere una struttura simile alla seguente:
 Suggerimento: nominare le cartelle con anno-mese-giorno permette di far 
 coincidere l'ordine alfabetico con quello cronologico.
 
+### Generazione del Form
+
+Povinator3000 richiede che il Google Form che raccoglierà le presentazioni
+sia costruito in un certo modo.
+Al fine di produrlo correttamente, Povinator mette a disposizione una 
+funzionalità di generazione di Google Form.
+
+Dopo aver strutturato la cartella lauree come indicato nella sezione precedente,
+navigare su Google Drive in tale cartella e copiare l'URL presente nella
+barra di navigazione del proprio browser.
+
+L'URL sarà simile a:
+`https://drive.google.com/drive/u/0/folders/0BwwA4oUTeiV1TGRPeTVjaWRDY1E`.
+
+Navigare ora su http://localhost:3000/form e incollare il link appena copiato
+nella aposita casella e procedere.
+
+### Completare la Generazione del Form
+
+Per limitazioni delle API di Google, Povinator non è in grado di
+compiere tutte le azioni che sono necessarie per finalizzare la costruzione
+del Form.
+Nella sezione successiva verranno mostrate tali azioni.
+
 ## Download delle Presentazioni
 
 Una volta che viene chiuso il Form e gli studenti non hanno più la possibilità 
@@ -34,7 +63,7 @@ la routine di rinominazione, spostamento e download delle presentazioni.
 ### Pagina Principale
 
 Per utilizzare Povinator, navigare con il proprio browser su
-http://localhost:3000/.
+http://localhost:3000/presentations.
 
 Quella che viene mostrata è la pagina iniziale di Povinator.
 Da qui è possibile indicare l'URL della cartella di Google Drive su cui operare.
@@ -147,7 +176,7 @@ $ git clone https://github.com/dpdani/povinator3000.git
 $ cd povinator3000
 $ python3 -m venv venv
 $ source venv/bin/activate  # on linux
-$ venv/bin/activate.bat  # on windows
+$ venv\bin\activate.bat  # on windows
 $ pip install -r requirements.txt
 $ python -m povinator3000
 ``` 

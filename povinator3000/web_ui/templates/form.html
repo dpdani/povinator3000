@@ -3,6 +3,21 @@
 
 {% block page_title %}Create Form from Folder{% endblock %}
 
+{% block head %}
+  <script>
+  function submit() {
+    var lauree_folder = document.getElementById("lauree-folder").value;
+    if (!lauree_folder.startsWith("https://drive.google.com/drive/")) {
+      toast("Please enter a valid Google Drive URL");
+      return;
+    }
+    var submit_button = document.getElementById('submit-btn');
+    submit_button.disabled = true;
+    window.location = '/create-form?url=' + lauree_folder;
+  }
+  </script>
+{% endblock %}
+
 {% block content %}
   <form action="#">
     <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label" style="width: 100%">
@@ -10,4 +25,9 @@
       <label class="mdl-textfield__label" for="lauree-folder">Enter the "Lauree" folder</label>
     </div>
   </form>
+  <br><br>
+  <button class="mdl-button mdl-js-button mdl-button--fab mdl-js-ripple-effect mdl-button--colored" style="float: right"
+          onclick="submit()" id="submit-btn">
+    <i class="material-icons">arrow_forward</i>
+  </button>
 {% endblock %}

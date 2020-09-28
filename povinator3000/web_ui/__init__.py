@@ -127,6 +127,28 @@ def form():
     )
 
 
+@app.route('/create-form', methods=['GET'])
+def create_form():
+    url = flask.request.args.get('url', None)
+    if url is None:
+        return flask.render_template(
+            "error.html",
+            error_code=401,
+            error_message="Please supply a URL.",
+        ), 401
+    try:
+        core.form(url)
+    except core.GoogleAPIInitializationError:
+        return flask.render_template(
+            "error.html",
+            error_code=510,
+            error_message="Could not correctly initialize Google APIs."
+        ), 510
+    return flask.render_template(
+        "form_done.html",
+    )
+
+
 @app.route('/dummy', methods=['GET'])
 def dummy():
     return flask.render_template('upload.html')

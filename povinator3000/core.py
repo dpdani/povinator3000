@@ -2,10 +2,10 @@
 
 # Copyright (C) 2019, Daniele Parmeggiani <daniele.parmeggiani@studenti.unitn.it>
 # Made by and for Ufficio 150ore, Povo, UniTN
-
-
+import json
 import sys
 import datetime
+import tempfile
 from pathlib import Path
 import pickle
 import click
@@ -26,6 +26,7 @@ file_upload_folder_suffix = '(File responses)'
 responses_sheet_suffix = '(Responses)'
 google_folder_mime = 'application/vnd.google-apps.folder'
 google_sheet_mime = 'application/vnd.google-apps.spreadsheet'
+google_script_mime = 'application/vnd.google-apps.script'
 google_mime_prefix = 'application/vnd.google-apps.'
 
 drive_service = None
@@ -144,13 +145,25 @@ def download_folder(folder_id, prefix=Path.cwd()):
     return folder
 
 
-def upload_file(name, path, folder_id):
+def upload_file(name, path, folder_id, mime_type=None, media_mime_type=None):
+    # https://github.com/googleapis/google-api-nodejs-client/issues/680
+    # f = drive_service.files().create(
+    #     body={
+    #         'name': name,
+    #         'mimeType': mime_type,
+    #     },
+    #     media_body=MediaFileUpload(
+    #         path, mimetype=media_mime_type),
+    #     fields='id',
+    # ).execute()
     f = drive_service.files().create(
         body={
             'name': name,
+            'mimeType': 'application/vnd.google-apps.script',
         },
-        media_body=MediaFileUpload(path),
+        media_body=MediaFileUpload(path, mimetype='application/vnd.google-apps.script+json'),
         fields='id',
+
     ).execute()
     move(f['id'], folder_id)
     return f['id']
@@ -257,3 +270,43 @@ def go(folder_url, responses_sheets, download, make_zip):
                 yield 'zip_done', archive_path
         else:
             yield 'download_error'
+
+
+def form(url):
+    if not init():
+        raise GoogleAPIInitializationError
+    folder_id = url.split('/')[-1]
+    tree = get_folder_structure(folder_id)
+    deps = [ x for x in tree.keys() if x != 'metadata' ]
+    coms = {}
+    for dep in deps:
+        coms[dep] = [ x for x in tree[dep].keys() if x != 'metadata' ]
+    for ff in ['create_form_template_IT.gs', 'create_form_template_EN.gs']:
+        with open(ff, 'r') as f:
+            template = jinja2.Template(f.read())
+        out = template.render(
+            dt=str(datetime.datetime.now()),
+            title=tree['metadata']['name'],
+            departments=deps,
+            commissions=coms,
+        )
+        with tempfile.NamedTemporaryFile(suffix='.gs') as f:
+            f.write(out.encode())
+            f.flush()
+            upload_file(
+                f"Create Form {'IT' if 'IT' in ff else 'EN'}",
+                f.name,
+                folder_id,
+                mime_type=google_script_mime,
+                media_mime_type=google_script_mime + '+json',
+            )
+        # temp_path = Path().cwd() / uuid.uuid4().hex
+        # with open(temp_path, 'w') as f:
+        #     f.write(out)
+        # upload_file(
+        #     f"Create Form {'IT' if 'IT' in ff else 'EN'}",
+        #     temp_path,
+        #     folder_id,
+        #     mime_type=google_script_mime,
+        # )
+        # temp_path.unlink()  # os.remove equivalent
