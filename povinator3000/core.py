@@ -3,6 +3,7 @@
 # Copyright (C) 2019, Daniele Parmeggiani <daniele.parmeggiani@studenti.unitn.it>
 # Made by and for Ufficio 150ore, Povo, UniTN
 import json
+import shutil
 import sys
 import datetime
 import tempfile
@@ -31,6 +32,8 @@ google_mime_prefix = 'application/vnd.google-apps.'
 
 drive_service = None
 sheets_service = None
+
+DOWNLOADS_FOLDER = Path.cwd() / 'downloads'
 
 
 def load_credentials():
@@ -123,11 +126,11 @@ def download_file(file_id, path):
             f.write(fh.getvalue())
 
 
-def download_folder(folder_id, prefix=Path.cwd()):
+def download_folder(folder_id, prefix=DOWNLOADS_FOLDER):
     info = drive_service.files().get(
         fileId=folder_id
     ).execute()
-    if prefix == Path.cwd():
+    if prefix == DOWNLOADS_FOLDER:
         folder = prefix / (info['name'] + ' ' +
                            datetime.datetime.now().strftime('%Y-%m-%d-%H-%M-%S'))
     else:
@@ -147,24 +150,23 @@ def download_folder(folder_id, prefix=Path.cwd()):
 
 def upload_file(name, path, folder_id, mime_type=None, media_mime_type=None):
     # https://github.com/googleapis/google-api-nodejs-client/issues/680
-    # f = drive_service.files().create(
-    #     body={
-    #         'name': name,
-    #         'mimeType': mime_type,
-    #     },
-    #     media_body=MediaFileUpload(
-    #         path, mimetype=media_mime_type),
-    #     fields='id',
-    # ).execute()
     f = drive_service.files().create(
         body={
             'name': name,
-            'mimeType': 'application/vnd.google-apps.script',
+            'mimeType': mime_type,
         },
-        media_body=MediaFileUpload(path, mimetype='application/vnd.google-apps.script+json'),
+        media_body=MediaFileUpload(
+            path, mimetype=media_mime_type),
         fields='id',
-
     ).execute()
+    # f = drive_service.files().create(
+    #     body={
+    #         'name': name,
+    #         'mimeType': 'application/vnd.google-apps.script',
+    #     },
+    #     media_body=MediaFileUpload(path, mimetype='application/vnd.google-apps.script+json'),
+    #     fields='id',
+    # ).execute()
     move(f['id'], folder_id)
     return f['id']
 
@@ -266,7 +268,10 @@ def go(folder_url, responses_sheets, download, make_zip):
             yield 'download_done', path
             if make_zip:
                 yield 'zipping'
-                archive_path = create_archive(str(path))
+                archive_path = Path(
+                    create_archive(str(path))
+                ).relative_to(DOWNLOADS_FOLDER)
+                shutil.rmtree(path)
                 yield 'zip_done', archive_path
         else:
             yield 'download_error'

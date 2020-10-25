@@ -54,4 +54,3 @@ function main() {
   form.setAcceptingResponses(true);
   form.setAllowResponseEdits(true);
 }
-

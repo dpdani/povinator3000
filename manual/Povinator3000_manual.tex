@@ -1,0 +1,239 @@
+\documentclass[12pt]{report}
+
+\usepackage[italian]{babel}
+\usepackage[hidelinks]{hyperref}
+\usepackage[htt]{hyphenat}
+
+
+% Title Page
+\title{Povinator3000 \\
+
+{\Large Manuale Utente}}
+\author{Daniele Parmeggiani}
+\date{\today}
+
+
+\begin{document}
+\pagenumbering{gobble}
+\maketitle
+\pagenumbering{arabic}
+\tableofcontents
+
+\chapter{Guida all'Utilizzo}
+
+Il codice sorgente di Povinator3000 si trova su GitHub \url{https://github.com/dpdani/povinator3000}.
+
+Nel manuale si farà spesso riferimento a URL come \url{http://localhost:3000/} per indicare il percorso di Povinator.
+
+Nel caso tale URL non rispondesse, chiedere all'installatore a quale percorso Povinator sia raggiungibile.
+
+\section{Preparazione al caricamento delle
+Presentazioni}\label{preparazione-al-caricamento-delle-presentazioni}
+
+Per permettere agli studenti di caricare le proprie presentazioni, è necessario preparare una cartella su Google Drive che ospiterà i file degli studenti.
+
+\subsection{Struttura della Cartella Lauree}\label{struttura-della-cartella-lauree}
+
+Povinator necessita per funzionare di una struttura ben definita delle cartelle che ospitano le presentazioni dei candidati.
+
+È necessario costruire la cartella ``Lauree'' in modo che contenga nel primo livello una cartella per ognuno dei Dipartimenti che parteciperanno alla sessione di laurea.
+Al secondo livello, per ogni Dipartimento è necessario creare una sotto-cartella per ogni Commissione di Laurea di tale Dipartimento.
+
+Per esempio, si potrebbe ottenere una struttura simile alla seguente:
+
+\begin{samepage}
+\begin{verbatim}
++ Lauree 2020-04-26
+  + CIBIO
+    + BCM 1
+    + BCM 2
+  + DISI
+    + Commissione 1
+    + Commissione 2
+\end{verbatim}
+\end{samepage}
+
+Suggerimento: nominare le cartelle con anno-mese-giorno permette di far coincidere l'ordine alfabetico con quello cronologico.
+
+\subsection{Generazione del Form}\label{generazione-del-form}
+
+Povinator3000 richiede che il Google Form che raccoglierà le presentazioni sia costruito in un certo modo.
+Al fine di produrlo correttamente, è necessario compiere i seguenti passaggi:
+
+\begin{enumerate}
+\item Impostare la collezione di email, la richiesta di essere loggati e di limitazione ad una risposta.
+\item Aggiungere, \emph{in questo ordine}, i seguenti campi ognuno dei quali dev'essere necessariamente inserito per inviare la risposta:
+    \begin{enumerate}
+    \item Nome
+    \item Cognome
+    \item Data della presentazione
+    \item Livello di Laurea (se triennale o magistrale)
+    \item Dipartimento / Facoltà
+    \end{enumerate}
+\item Per ognuno dei Dipartimenti, creare una nuova pagina (\emph{page break}) e inserire un campo obbligatorio contenente ognuna delle Commissioni istituite.
+\item Creare una nuova pagina e inserire un campo per il caricamento di file.
+\end{enumerate}
+
+Nelle impostazioni, selezionare la generazione di uno Sheet che conterrà le risposte.
+
+%Dopo aver strutturato la cartella lauree come indicato nella sezione precedente, navigare su Google Drive in tale cartella e copiare l'URL presente nella barra di navigazione del proprio browser.
+%
+%L'URL sarà simile a:
+%\texttt{https://drive.google.com/drive/u/0/folders\-/0BwwA4oUTeiV1TGRPeTVjaWRDY1E}.
+%
+%Navigare ora su \url{http://localhost:3000/form} e incollare il link appena copiato nella apposita casella e procedere.
+
+Dovrebbe essere fornito un Form di esempio che è possibile copiare e riutilizzare.
+
+
+\section{Download delle Presentazioni}\label{download-delle-presentazioni}
+
+Una volta che viene chiuso il Form e gli studenti non hanno più la possibilità di caricare le proprie presentazioni, si può usare Povinator per procedere con la routine di rinominazione, spostamento e download delle presentazioni.
+
+\subsection{Pagina Principale}\label{pagina-principale}
+
+Per utilizzare Povinator, navigare con il proprio browser su \url{http://localhost:3000/}.
+
+Quella che viene mostrata è la pagina iniziale di Povinator, la quale mette a disposizione un pulsante per iniziare la procedura di Download delle Presentazioni.
+Dalla pagina che viene aperta quando si preme sul pulsante, è possibile indicare l'URL della cartella di Google Drive su cui operare.
+
+L'URL da inserire sarà simile a:
+\texttt{https://drive.google.com/drive/u/\-0/folders/0BwwA4oUTeiV1TGRPeTVjaWRDY1E}.
+In particolare, questo URL può essere trovato navigando su Google Drive nella cartella da utilizzare e copiando l'URL nella barra di navigazione del proprio browser.
+
+%Nella stessa pagina è anche possibile selezionare l'opzione di scaricare nel computer locale i file delle presentazioni che sono stati caricati dagli studenti, una volta che Povinator li abbia rinominati e spostati nella cartella corretta, all'interno di Drive.
+
+Nota: eseguire più volte Povinator sugli stessi file non produrrà effetti indesiderati.
+
+\subsection{Fogli di Risposte}\label{fogli-di-risposte}
+
+Una volta inserito l'URL e selezionate le opzioni desiderate, è possibile procedere alla schermata successiva, premendo il pulsante con la freccia.
+
+In questa schermata è possibile selezionare quali file siano i fogli elettronici contenenti le risposte al Form presentato ai laureandi.
+
+Povinator utilizzerà questi file per decidere come rinominare e spostare i file all'interno dell'archivio Drive.
+
+È necessario selezionare almeno un file perché Povinator riesca ad effettuare le consuete operazioni. Nel caso non venga selezionato nulla, Povinator procederà senza effettuare nessuna operazione.
+
+Povinator mette a disposizione dell'utente per la selezione \emph{solo} i file che rispettano le caratteristiche adatte, ovvero
+
+\begin{itemize}
+\item
+  il file deve essere un Google Spreadsheet;
+\item
+  il nome del file deve terminare con ``(Responses)'' o ``(Risposte)'' i
+  quali sono i suffissi che Google applica ai file di risposta dei
+  Google Form.
+\end{itemize}
+
+Nel caso Povinator non riesca a trovare nessun file che rispetti queste caratteristiche, anziché mostrare la normale pagina di selezione, mostrerà una schermata di errore.
+
+\subsection{Pagina Finale}\label{pagina-finale}
+
+Dopo aver selezionato i Fogli di Risposta, Povinator procederà a rinominare e spostare i file caricati dagli studenti nelle cartelle corrette.
+
+I file verranno rinominati con il nome e cognome dello studente che li ha caricati, così come lo stesso studente avrà indicato compilando il Form.
+
+In questa pagina, sarà possibile prendere visione di tutte le operazioni compiute da Povinator, in forma testuale.
+
+In calce al corpo della pagina, Povinator mostrerà i percorsi in cui sono stati scaricati i file e dove è stato creato l'archivio ZIP.
+Da qui è possibile scaricare il file ZIP.
+
+
+\chapter{Installazione}\label{installazione}
+
+\section{Python}\label{python}
+
+Come prima cosa assicurarsi che Python sia disponibile sul proprio
+sistema in versione \(\geq\) 3.8.
+
+Per Windows è possibile scaricarlo da
+\url{https://www.python.org/downloads/windows/}.
+
+Per Linux, consultare le modalità di installazione della propria
+distribuzione. Inoltre, è assai probabile che sia già installato. Si può
+verificare inserendo il comando da terminale:
+
+\begin{verbatim}
+$ python3 --version
+Python 3.8.6
+\end{verbatim}
+
+Se l'esecuzione di tale comando restituisce un output simile a quello
+mostrato, allora Python è stato installato con successo.
+
+\section{Git}\label{git}
+
+Successivamente, è necessario installare Git.
+
+Per Windows: \url{https://git-scm.com/download/win}.
+
+Nuovamente, per Linux consultare le modalità specifiche della propria distribuzione.
+Anche Git è probabile che sia preinstallato.
+
+Verificare la corretta installazione:
+
+\begin{verbatim}
+$ git --version
+git version 2.25.2
+\end{verbatim}
+
+\section{Povinator3000}\label{povinator3000}
+
+Per installare tutte le componenti necessarie al funzionamento di Povinator è sufficiente eseguire:
+
+\begin{verbatim}
+$ git clone https://github.com/dpdani/povinator3000.git
+$ cd povinator3000
+$ make install
+\end{verbatim}
+
+Se non si ha la possibilità di utilizzare il sistema make, è possibile ottenere il medesimo risultato eseguendo:
+
+\begin{verbatim}
+$ git clone https://github.com/dpdani/povinator3000.git
+$ cd povinator3000
+$ python3 -m venv venv
+$ source venv/bin/activate  # per linux
+$ venv\bin\activate.bat  # per windows
+$ pip install -r requirements.txt
+$ python -m povinator3000
+\end{verbatim}
+
+Verificare la corretta installazione navigando su
+\url{http://localhost:3000/}.
+
+Se sul browser viene mostrata la pagina di benvenuto di Povinator,
+allora l'installazione è avvenuta con successo.
+
+\section{Avviare Povinator}
+
+Per avviare Povinator, è sufficiente eseguire:
+
+\begin{verbatim}
+$ make start
+\end{verbatim}
+
+Questo avvierà Povinator sottintendendo che esso dovrà essere raggiungibile su \texttt{localhost:3000}.
+Se si desidera usare un altro \emph{bind}, è sufficiente passarlo come argomento:
+
+\begin{verbatim}
+$ make start bind=192.168.1.1:80
+\end{verbatim}
+
+
+\section{Aggiornamenti}
+
+Se il repository di GitHub dispone di una nuova versione di Povinator, per aggiornare il software, sarà necessario eseguire il seguente comando:
+
+\begin{verbatim}
+$ make update
+\end{verbatim}
+
+Con il seguente comando invece, si può riattivare Povinator dopo l'aggiornamento (questo eseguirà anche \texttt{make update}):
+
+\begin{verbatim}
+$ make upgrade
+\end{verbatim}
+
+\end{document}          

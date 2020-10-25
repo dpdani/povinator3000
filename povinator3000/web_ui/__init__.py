@@ -4,6 +4,7 @@ import flask
 import json
 from .. import core
 import os
+import sys
 
 
 in_povinator = 'povinator3000.py' in os.listdir(os.getcwd())
@@ -30,8 +31,8 @@ def presentations():
 @app.route('/sheets', methods=['GET'])
 def sheets():
     url = flask.request.args.get('url', '')
-    download = flask.request.args.get('download', False)
-    zip = flask.request.args.get('zip', False)
+    # download = flask.request.args.get('download', False)
+    # zip = flask.request.args.get('zip', False)
     if not url:
         return flask.render_template(
             'error.html',
@@ -60,8 +61,10 @@ def sheets():
 
 @app.route('/go', methods=['GET'])
 def go():
-    download = flask.request.args.get('download', False)
-    zip = flask.request.args.get('zip', False)
+    # download = flask.request.args.get('download', False)
+    # zip = flask.request.args.get('zip', False)
+    download = True
+    zip = True
     url = flask.request.args.get('url', '')
     sheets = flask.request.args.get('sheets', [])
     if type(sheets) == str:
@@ -117,6 +120,21 @@ def go():
         output=log,
         pres_folder=pres_folder,
         zip_path=zip_path,
+    )
+
+
+@app.route('/zip/<path>', methods=['GET'])
+def zip(path):
+    def not_found():
+        return flask.render_template(
+            'error.html',
+            error_code=404,
+            error_message="Zip archive not found.",
+        )
+    if not path:
+        return not_found()
+    return flask.send_from_directory(
+        directory=core.DOWNLOADS_FOLDER, filename=path
     )
 
 
@@ -176,7 +194,11 @@ def error_page_500(error):
 
 
 def main():
-    app.run(host='localhost', port=3000)
+    if len(sys.argv) > 1:
+        host, port = sys.argv[1].split(':')
+    else:
+        host, port = 'localhost', 3000
+    app.run(host=host, port=port)
 
 
 if __name__ == '__main__':

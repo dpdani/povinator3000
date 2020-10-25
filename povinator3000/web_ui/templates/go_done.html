@@ -15,5 +15,7 @@
   {% if zip_path is not none %}
     The ZIP archive is available at
     <pre style="white-space: pre-wrap;">{{ zip_path }}</pre>
+
+    Click <a href="/zip/{{ zip_path }}" download>here</a> to download the archive.
   {% endif %}
 {% endblock %}
