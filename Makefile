@@ -20,3 +20,6 @@ update:
 	git pull
 
 upgrade: stop update start
+
+clear-downloads:
+	find ./downloads -type f -name '*.zip' -exec rm {} +

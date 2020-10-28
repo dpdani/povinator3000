@@ -3,6 +3,15 @@
 
 {% block page_title %} Done :) {% endblock %}
 
+{% block head %}
+  <script>
+  function click_link() {
+      document.getElementById("download-zip").click()
+  }
+  setTimeout(click_link, 1000)
+  </script>
+{% endblock %}
+
 {% block content %}
   <pre style="white-space: pre-wrap;">
 {{ output | safe }}
@@ -16,6 +25,8 @@
     The ZIP archive is available at
     <pre style="white-space: pre-wrap;">{{ zip_path }}</pre>
 
-    Click <a href="/zip/{{ zip_path }}" download>here</a> to download the archive.
+    Your download should have started automatically. Please, click
+    <a id="download-zip" href="/zip/{{ zip_path }}" download>here</a>
+    if it didn't.
   {% endif %}
 {% endblock %}

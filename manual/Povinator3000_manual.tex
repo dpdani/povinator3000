@@ -215,11 +215,17 @@ $ make start
 \end{verbatim}
 
 Questo avvierà Povinator sottintendendo che esso dovrà essere raggiungibile su \texttt{localhost:3000}.
-Se si desidera usare un altro \emph{bind}, è sufficiente passarlo come argomento:
+Se si desidera usare un altro \emph{bind}, è sufficiente passarlo come argomento, specificando sia host che porta, separati dai due punti:
 
 \begin{verbatim}
 $ make start bind=192.168.1.1:80
 \end{verbatim}
+
+\section{Il Primo Avvio}
+
+Durante il primo avvio di Povinator, verranno richieste delle autorizzazioni ad operare con le API di Google Drive e Google Sheets.
+
+Per assegnare questi permessi a Povinator è necessario solamente avviarlo, eseguire l'accesso al proprio account Google e fornire il consenso.
 
 
 \section{Aggiornamenti}
@@ -234,6 +240,16 @@ Con il seguente comando invece, si può riattivare Povinator dopo l'aggiornament
 
 \begin{verbatim}
 $ make upgrade
+\end{verbatim}
+
+\section{Svuotare la Cartella Download}
+
+Dopo un po' di tempo l'utilizzo di Povinator può portare alla crescita della dimensione della cartella \texttt{povinator3000/downloads} sul disco, la quale viene utilizzata da Povinator per contenere i file ZIP generati prima che gli utenti li scarichino.
+
+Per svuotarla è conveniente fare uso del Makefile distribuito con Povinator:
+
+\begin{verbatim}
+$ make clear-downloads
 \end{verbatim}
 
 \end{document}          

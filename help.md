@@ -129,7 +129,7 @@ richiesto nella pagina principale.
 ### Python
 
 Come prima cosa assicurarsi che Python sia disponibile sul proprio sistema
-in versione &ge; 3.6, preferibilmente 3.8 o superiore.
+in versione $\geq$ 3.6, preferibilmente 3.8 o superiore.
 
 Per Windows è possibile scaricarlo da https://www.python.org/downloads/windows/.
 
